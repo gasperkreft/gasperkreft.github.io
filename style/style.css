@@ -1,0 +1,37 @@
+body {
+		background-color: #000;
+		margin: 0px;
+		overflow: hidden;
+		color:#f5f5f5;
+		
+	}
+	
+		#name {
+		font-size: 5em;
+		font-family: 'Roboto Condensed', sans-serif;
+		color:#f5f5f5;
+		letter-spacing: 0.05em;
+	}
+
+		#container {
+		margin: 5em;
+	}
+	
+		p {
+		font-family: 'Roboto', sans-serif;
+		font-size: 1em;
+		color:#f5f5f5;
+		line-height: 0.7;
+	}
+		
+		a, a:link, a:visited {
+		color:#f5f5f5;
+	}
+	
+	@media only screen and (max-width: 620px) {
+	  #name{
+		font-size:20vw;
+	  }
+	  #container {
+		margin: 10vw;
+	}

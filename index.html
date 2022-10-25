@@ -17,59 +17,21 @@
         
         <title>Gašper Kreft</title>
 		
+		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@900&family=Roboto&family=Roboto+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
 		
-	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/three@0.116.1/build/three.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/three@0.116.1/examples/js/controls/OrbitControls.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		
+		<link rel="stylesheet" href="style/style.css">
     </head>
 	<body>
-	<style>
-		body {
-		background-color: #000;
-		margin: 0px;
-		overflow: hidden;
-		color:#f5f5f5;
-		
-	}
-	
-		#name {
-		font-size: 5em;
-		font-family: 'Roboto Condensed', sans-serif;
-		color:#f5f5f5;
-		letter-spacing: 0.05em;
-	}
-
-		#container {
-		margin: 5em;
-	}
-	
-		p {
-		font-family: 'Roboto', sans-serif;
-		font-size: 1em;
-		color:#f5f5f5;
-		line-height: 0.7;
-	}
-		
-		a, a:link, a:visited {
-		color:#f5f5f5;
-	}
-	
-	@media only screen and (max-width: 620px) {
-	  #name{
-		font-size:20vw;
-	  }
-	  #container {
-		margin: 10vw;
-	}
-
-	</style>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.116.1/build/three.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.116.1/examples/js/controls/OrbitControls.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	
 	<div id="container" style="position:absolute">
 		<h1 id="name">Gašper Kreft</h1>
@@ -78,106 +40,8 @@
 		<p>> <a href="https://github.com/gasperkreft">@gasperkreft</a> on github</p>
 		<p>> <a href="https://www.instagram.com/gasperkreft/">@gasperkreft</a> on instagram</p>
 	</div>
-	<script type="module">
 	
-	
-	let SCREEN_WIDTH = window.innerWidth;
-	let SCREEN_HEIGHT = window.innerHeight;
-	let aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-
-	let scene, camera, renderer, container, particles, mesh, com;
-	let mouseX = 0, mouseY = 0;
-	let targetX = 0, targetY = 0;
-	
-	let windowHalfX = window.innerWidth / 2;
-	let windowHalfY = window.innerHeight / 2;
-	
-	init();
-	animate();
-	
-	function init() {
-	
-		container = document.createElement( 'div' );
-		container.z_index = -100;
-		document.body.appendChild( container );
-		
-		scene = new THREE.Scene();
-		scene.background = new THREE.Color(0x212038);
-
-		camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
-		camera.position.x = 0;
-		camera.position.y = 0;
-		camera.position.z = 100;
-
-		/*	const mesh = new THREE.Mesh(
-					new THREE.SphereGeometry( 10, 16, 8 ),
-					new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } )
-				);
-		scene.add( mesh );*/
-		
-		const geometry = new THREE.BufferGeometry();
-		const vertices = [];
-
-		for ( let i = 0; i < 10000; i ++ ) {
-
-			vertices.push( THREE.MathUtils.randFloatSpread( 1500 ) ); // x
-			vertices.push( THREE.MathUtils.randFloatSpread( 1500 ) ); // y
-			vertices.push( THREE.MathUtils.randFloatSpread( 1500 ) ); // z
-
-		}
-
-		geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-		const particles = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x888888 } ) );
-		scene.add( particles );
-		
-		renderer = new THREE.WebGLRenderer( { antialias: true } );
-		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-		container.appendChild( renderer.domElement );
-		
-		document.addEventListener( 'mousemove', onDocumentMouseMove );
-		window.addEventListener( 'resize', onWindowResize );
-		
-	}
-	
-	function onWindowResize() {
-
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-	}
-		
-	function onDocumentMouseMove( event ) {
-
-		mouseX = ( event.clientX - windowHalfX ) / 2;
-		mouseY = ( event.clientY - windowHalfY ) / 2;
-	}
-	
-	function animate() {
-		requestAnimationFrame(animate);
-		render();   
-	}
-		
-	function render() {
-	
-		camera.rotation.x += 0.01*(mouseY*0.001-camera.rotation.x)
-		camera.rotation.y += 0.01*(mouseX*0.001-camera.rotation.y)
-
-	
-
-		//camera.lookAt( scene.position );
-
-
-		renderer.render(scene, camera );
-
-	}
-	
-	</script>
+	<script type ="module" src="./script/script.js"></script>
   </body>
 </html>
     
